@@ -30,6 +30,14 @@ class AuthenticationController extends Controller
                 'password' => bcrypt($request->password),
                 'otp' => $otp
             ]);
+
+            $details = [
+//                'title' => 'OTP',
+                'otp' =>  $otp
+            ];
+            $email = $request->get('email');
+            Mail::to($email)->send(new \App\Mail\MyOTPMail($details));
+
             return response()->json(['resp_code' => 200, 'message' => "OTP sent successfully"]);
         }
 
